@@ -1,7 +1,13 @@
 <h1>Weather Dashboard</h1>
-<app-search></app-search>
-<app-current-weather></app-current-weather>
+
+<app-search (citySelected)="onCitySelected($event)"></app-search>
+
+<app-current-weather [city]="selectedCity()"></app-current-weather>
+
 <app-forecast></app-forecast>
+
 <app-ai-prompt></app-ai-prompt>
+
 <app-favorites></app-favorites>
+
 <app-footer></app-footer>

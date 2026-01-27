@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-current-weather',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],  
   templateUrl: './current-weather.html',
-  styleUrl: './current-weather.css',
+  styleUrls: ['./current-weather.css']
 })
 export class CurrentWeather {
-
+  @Input()
+  city!: string;
 }

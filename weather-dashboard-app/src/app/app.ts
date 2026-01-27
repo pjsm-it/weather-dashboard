@@ -4,7 +4,7 @@ import { CurrentWeather } from './components/current-weather/current-weather';
 import { Forecast } from './components/forecast/forecast';
 import { Favorites } from './components/favorites/favorites';
 import { Footer } from './components/footer/footer';
-import { AiPrompt } from "./components/ai-prompt/ai-prompt";
+import { AiPrompt } from './components/ai-prompt/ai-prompt';
 
 @Component({
   selector: 'app-root',
@@ -16,10 +16,15 @@ import { AiPrompt } from "./components/ai-prompt/ai-prompt";
     Favorites,
     Footer,
     AiPrompt
-],
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('weather-dashboard-app');
+  protected readonly selectedCity = signal('Braga');
+
+  protected onCitySelected(city: string) {
+    this.selectedCity.set(city);
+  }
 }

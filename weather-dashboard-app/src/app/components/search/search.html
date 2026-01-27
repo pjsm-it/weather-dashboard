@@ -1,5 +1,13 @@
-<div class="search-component" style="border: 1px solid #ccc; padding: 1rem; margin: 1rem 0;">
-  <label for="city">City Name:</label>
-  <input id="city" type="text" placeholder="Enter city name" />
-  <button>Search</button>
+<div class="search-component">
+  <h2>Search City</h2>
+
+  <input
+    type="text"
+    placeholder="Enter city name..."
+    [value]="city()"
+    (input)="city.set($event.target.value)"
+    (keydown)="handleKey($event)"
+  />
+
+  <button (click)="searchCity()">Search</button>
 </div>
