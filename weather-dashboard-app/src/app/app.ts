@@ -1,8 +1,20 @@
 import { Component, signal } from '@angular/core';
+import { Search } from './components/search/search';
+import { CurrentWeather } from './components/current-weather/current-weather';
+import { Forecast } from './components/forecast/forecast';
+import { Favorites } from './components/favorites/favorites';
+import { Footer } from './components/footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  standalone: true,
+  imports: [
+    Search,
+    CurrentWeather,
+    Forecast,
+    Favorites,
+    Footer
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
