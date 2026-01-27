@@ -13,3 +13,8 @@
 .search-component button {
   padding: 0.5rem 1rem;
 }
+
+.error {
+    color: red;
+    margin-top: 0.5rem;
+}

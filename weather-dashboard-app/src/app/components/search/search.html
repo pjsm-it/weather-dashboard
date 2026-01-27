@@ -2,12 +2,16 @@
   <h2>Search City</h2>
 
   <input
-    type="text"
-    placeholder="Enter city name..."
-    [value]="city()"
-    (input)="city.set($event.target.value)"
-    (keydown)="handleKey($event)"
+      type="text"
+      placeholder="Enter city name..."
+      [value]="city()"
+      (input)="city.set($event.target.value)"
+      (keydown)="handleKey($event)"
   />
 
   <button (click)="searchCity()">Search</button>
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
 </div>
