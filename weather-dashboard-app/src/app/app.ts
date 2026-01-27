@@ -4,6 +4,7 @@ import { CurrentWeather } from './components/current-weather/current-weather';
 import { Forecast } from './components/forecast/forecast';
 import { Favorites } from './components/favorites/favorites';
 import { Footer } from './components/footer/footer';
+import { AiPrompt } from "./components/ai-prompt/ai-prompt";
 
 @Component({
   selector: 'app-root',
@@ -13,8 +14,9 @@ import { Footer } from './components/footer/footer';
     CurrentWeather,
     Forecast,
     Favorites,
-    Footer
-  ],
+    Footer,
+    AiPrompt
+],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
