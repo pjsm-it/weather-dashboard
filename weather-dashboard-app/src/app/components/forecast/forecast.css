@@ -1,0 +1,37 @@
+.forecast-component {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.forecast-component ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.forecast-component li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.forecast-component li:last-child {
+  border-bottom: none;
+}
+
+.date {
+  font-weight: 600;
+}
+
+.temp {
+  margin-left: 0.25rem;
+}
+
+.condition {
+  color: #555;
+}
+
+.empty {
+  font-style: italic;
+  color: #777;
+}

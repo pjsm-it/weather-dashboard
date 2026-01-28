@@ -1,10 +1,25 @@
-<div class="forecast-component" style="border: 1px solid #ccc; padding: 1rem; margin: 1rem 0;">
+
+<div class="forecast-component">
   <h2>5-Day Forecast</h2>
-  <ul>
-    <li>Day 1: 15°C, Clear Sky ☀️</li>
-    <li>Day 2: 17°C, Partly Cloudy 🌤️</li>
-    <li>Day 3: 16°C, Rain 🌧️</li>
-    <li>Day 4: 18°C, Sunny ☀️</li>
-    <li>Day 5: 19°C, Cloudy ☁️</li>
-  </ul>
+
+  @if (forecastDays.length === 0) {
+    <p class="empty">No forecast data available.</p>
+  }
+  @else {
+    <ul>
+      @for (day of forecastDays; track day.date) {
+        <li>
+          <span class="date">{{ day.date }}</span>
+
+          @if (day.temperature !== undefined) {
+            <span class="temp"> — {{ day.temperature }}°C</span>
+          }
+
+          @if (day.condition) {
+            <span class="condition">, {{ day.condition }}</span>
+          }
+        </li>
+      }
+    </ul>
+  }
 </div>
