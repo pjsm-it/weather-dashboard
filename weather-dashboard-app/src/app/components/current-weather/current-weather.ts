@@ -9,6 +9,12 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./current-weather.css']
 })
 export class CurrentWeather {
+
   @Input()
   city!: string;
+
+  protected temperature?: number;
+  protected condition?: string;
+  protected humidity?: number;
+  protected windSpeed?: number;
 }
