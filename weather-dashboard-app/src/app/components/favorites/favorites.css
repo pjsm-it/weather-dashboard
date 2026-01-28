@@ -1,0 +1,25 @@
+.favorites-component {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.favorites-component ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.favorites-component li {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.favorites-component li:last-child {
+  border-bottom: none;
+}
+
+.empty {
+  font-style: italic;
+  color: #777;
+}
