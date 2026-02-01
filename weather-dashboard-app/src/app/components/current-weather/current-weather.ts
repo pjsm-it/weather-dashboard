@@ -20,4 +20,18 @@ export class CurrentWeather {
   protected condition?: string;
   protected humidity?: number;
   protected windSpeed?: number;
+
+  get displayTemperature(): number | undefined {
+    if (this.temperature === undefined) return undefined;
+    return this.unit === 'metric'
+      ? this.temperature
+      : this.temperature * 9 / 5 + 32;
+  }
+
+  get displayWind(): number | undefined {
+    if (this.windSpeed === undefined) return undefined;
+    return this.unit === 'metric'
+      ? this.windSpeed
+      : this.windSpeed * 2.23694;
+  }
 }

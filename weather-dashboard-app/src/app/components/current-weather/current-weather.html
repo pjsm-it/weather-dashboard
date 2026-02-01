@@ -3,9 +3,8 @@
 
   <p>City: {{ city }}</p>
 
-  @if (temperature !== undefined) {
-    <!-- Might have to change (ºC / ºF) -->
-    <p>Temperature: {{ temperature }} ºC</p>
+  @if (displayTemperature !== undefined) {
+    <p>Temperature: {{ displayTemperature }} {{ unit === 'metric' ? 'ºC' : 'ºF' }}</p>
   }
 
   @if (condition) {
@@ -16,7 +15,7 @@
     <p>Humidity: {{ humidity }} %</p>
   }
 
-  @if (windSpeed) {
-    <p>Wind: {{ windSpeed}} m/s</p>
+  @if (displayWind !== undefined) {
+    <p>Wind: {{ displayWind }} {{ unit === 'metric' ? 'm/s' : 'mph' }}</p>
   }
 </div>
