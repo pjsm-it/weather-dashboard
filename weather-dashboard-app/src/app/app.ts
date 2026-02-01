@@ -23,8 +23,13 @@ import { AiPrompt } from './components/ai-prompt/ai-prompt';
 export class App {
   protected readonly title = signal('weather-dashboard-app');
   protected readonly selectedCity = signal('Braga');
+  protected readonly unit = signal<'metric' | 'imperial'>('metric');
 
   protected onCitySelected(city: string) {
     this.selectedCity.set(city);
+  }
+
+  protected toggleUnit() {
+    this.unit.set(this.unit() === 'metric' ? 'imperial' : 'metric');
   }
 }

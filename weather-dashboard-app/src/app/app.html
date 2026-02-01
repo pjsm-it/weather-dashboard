@@ -2,6 +2,12 @@
 
 <app-search (citySelected)="onCitySelected($event)"></app-search>
 
+<div class="unit-toggle">
+    <button (click)="toggleUnit()">
+        Toggle Unit ( {{ unit() === 'metric' ? 'ºC / m/s' : 'ºF / mph' }})
+    </button>
+</div>
+
 <app-current-weather [city]="selectedCity()"></app-current-weather>
 
 <app-forecast></app-forecast>
