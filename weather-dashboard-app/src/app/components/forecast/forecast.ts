@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-forecast',
@@ -9,7 +9,18 @@ import { Component } from '@angular/core';
   styleUrl: './forecast.css',
 })
 export class Forecast {
+  @Input()
   protected forecastDays: ForecastDay[] = [];
+
+  @Input()
+  protected unit: 'metric' | 'imperial' = 'metric';
+
+  protected getDisplayTemperature(temp?: number): number | undefined {
+    if (temp === undefined) return undefined;
+    return this.unit === 'metric'
+      ? temp
+      : temp * 9 / 5 + 32;
+  }
 }
 
 export interface ForecastDay {
