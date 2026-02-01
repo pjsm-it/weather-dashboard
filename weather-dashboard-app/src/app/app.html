@@ -8,7 +8,10 @@
     </button>
 </div>
 
-<app-current-weather [city]="selectedCity()"></app-current-weather>
+<app-current-weather
+    [city]="selectedCity()"
+    [unit]="unit()">
+</app-current-weather>
 
 <app-forecast></app-forecast>
 

@@ -13,6 +13,9 @@ export class CurrentWeather {
   @Input()
   city!: string;
 
+  @Input()
+  unit!: 'metric' | 'imperial';
+
   protected temperature?: number;
   protected condition?: string;
   protected humidity?: number;
