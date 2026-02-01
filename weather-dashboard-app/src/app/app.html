@@ -13,7 +13,10 @@
     [unit]="unit()">
 </app-current-weather>
 
-<app-forecast></app-forecast>
+<app-forecast>
+    [forecastDays]="forecastDays"
+    [unit]="unit()"
+</app-forecast>
 
 <app-ai-prompt></app-ai-prompt>
 
