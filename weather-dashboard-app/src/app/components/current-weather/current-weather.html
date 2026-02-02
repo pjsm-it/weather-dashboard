@@ -1,18 +1,18 @@
 <div class="current-weather-component">
   <h2>Current Weather</h2>
 
-  <p>City: {{ city }}</p>
+  <p>City: {{ city }}, {{ country() }}</p>
 
   @if (displayTemperature !== undefined) {
     <p>Temperature: {{ displayTemperature }} {{ unit === 'metric' ? 'ºC' : 'ºF' }}</p>
   }
 
-  @if (condition) {
-    <p>Condition: {{ condition }}</p>
+  @if (condition()) {
+    <p>Condition: {{ condition() }}</p>
   }
-  
-  @if (humidity !== undefined) {
-    <p>Humidity: {{ humidity }} %</p>
+
+  @if (humidity() !== undefined) {
+    <p>Humidity: {{ humidity() }} %</p>
   }
 
   @if (displayWind !== undefined) {
