@@ -31,3 +31,6 @@ pnpm-debug.log*
 
 # Optional: OS generated files
 Thumbs.db
+
+# Angular environment file with secret information (DO NOT COMMIT)
+src/environments/environment.ts
