@@ -21,11 +21,18 @@ export class CurrentWeather implements OnChanges {
   protected windSpeed = signal<number | undefined>(undefined);
   protected countrySignal = signal<string | undefined>(undefined);
 
+  private baseTemperature?: number;
+  private baseWindSpeed?: number;
+
   constructor(private weatherService: WeatherService) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['city'] || changes['unit']) {
+    if (changes['city']) {
       this.fetchWeather();
+    }
+
+    if (changes['unit']) {
+      this.applyUnitConversion();
     }
   }
 
@@ -38,18 +45,39 @@ export class CurrentWeather implements OnChanges {
     this.condition.set(undefined);
     this.countrySignal.set(undefined);
 
-    this.weatherService.getCurrentWeather(this.city, this.unit).subscribe({
+    this.weatherService.getCurrentWeather(this.city, 'metric').subscribe({
       next: (data: CurrentWeatherResponse) => {
-        this.temperature.set(data.main.temp);
+        this.baseTemperature = data.main.temp;
+        this.baseWindSpeed = data.wind.speed;
+
         this.humidity.set(data.main.humidity);
-        this.windSpeed.set(data.wind.speed);
         this.condition.set(data.weather[0]?.description);
         this.countrySignal.set(data.sys.country);
+
+        this.applyUnitConversion();
       },
       error: (err: Error) => {
         console.error('Weather API error:', err.message);
       }
     });
+  }
+
+  private applyUnitConversion() {
+    if (this.baseTemperature !== undefined) {
+      this.temperature.set(
+        this.unit === 'metric'
+          ? this.baseTemperature
+          : this.baseTemperature * 9 / 5 + 32 
+      );
+    }
+
+    if (this.baseWindSpeed !== undefined) {
+      this.windSpeed.set(
+        this.unit === 'metric'
+          ? this.baseWindSpeed
+          : this.baseWindSpeed * 2.23694 
+      );
+    }
   }
 
   protected get displayTemperature(): number | undefined {
