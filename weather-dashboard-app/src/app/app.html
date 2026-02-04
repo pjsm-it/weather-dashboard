@@ -14,9 +14,10 @@
     [unit]="unit()">
 </app-current-weather>
 
-<app-forecast>
-    [forecastDays]="forecastDays"
-    [unit]="unit()"
+<app-forecast
+    [citySignal]="selectedCity"
+    [countrySignal]="selectedCountry"
+    [unitSignal]="unit">
 </app-forecast>
 
 <app-ai-prompt></app-ai-prompt>

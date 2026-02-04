@@ -1,18 +1,30 @@
 <div class="forecast-component">
-  <h2>5-Day Forecast</h2>
+  <h2>{{ city }} Forecast ({{ unit === 'metric' ? '°C / m/s' : '°F / mph' }})</h2>
 
-  @if (forecastDays.length === 0) {
+  @if (loading()) {
+    <p>Loading forecast...</p>
+  }
+  @else if (forecastDays().length === 0) {
     <p class="empty">No forecast data available.</p>
   }
   @else {
     <ul>
-      @for (day of forecastDays; track day.date) {
+      @for (day of forecastDays(); track day.date) {
         <li>
           <span class="date">{{ day.date }}</span>
 
-          @if (getDisplayTemperature(day.temperature) !== undefined) {
+          @if (day.icon) {
+            <img
+              class="weather-icon"
+              [src]="'https://openweathermap.org/img/wn/' + day.icon + '@2x.png'"
+              alt="Weather icon"
+            />
+          }
+
+          @if (day.min !== undefined && day.max !== undefined) {
             <span class="temp">
-              — {{ getDisplayTemperature(day.temperature) }} {{ unit === 'metric' ? '°C' : '°F' }}
+              — {{ getDisplayTemperature(day.min) }} / {{ getDisplayTemperature(day.max) }}
+              {{ unit === 'metric' ? '°C' : '°F' }}
             </span>
           }
 
