@@ -14,11 +14,11 @@ export interface CurrentWeatherResponse {
 
 export interface ForecastResponse {
   daily: {
-    dt: number;
-    temp: { day: number; min: number; max: number };
-    weather: { description: string }[];
-    windSpeed: number;
-    humidity: number;
+    date: string;
+    min?: number;
+    max?: number;
+    condition?: string;
+    icon?: string;
   }[];
 }
 
@@ -32,7 +32,6 @@ export class WeatherService {
   private lastRequest = new Map<string, number>();
   private throttleDuration = 2000;
 
-  private forecastApiUrl = 'https://api.openweathermap.org/data/2.5/forecast/daily';
   private forecastCache = new Map<string, { timestamp: number; data: ForecastResponse }>();
   private forecastCacheDuration = 10 * 60 * 1000;
   private lastForecastRequest = new Map<string, number>();
@@ -83,20 +82,33 @@ export class WeatherService {
     }
 
     const query = country ? `${city},${country}` : city;
-    const url = `${this.forecastApiUrl}?q=${encodeURIComponent(query)}&cnt=7&units=${unit}&appid=${environment.weatherApiKey}`;
+    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(query)}&units=metric&appid=${environment.weatherApiKey}`;
 
     return this.http.get<any>(url).pipe(
       map(rawData => {
-        const data: ForecastResponse = {
-          daily: rawData.list.map((d: any) => ({
-            dt: d.dt,
-            temp: { day: d.temp.day, min: d.temp.min, max: d.temp.max },
-            weather: d.weather,
-            windSpeed: d.speed, 
-            humidity: d.humidity,
-          })),
-        };
+        const dailyMap = new Map<string, ForecastResponse['daily'][0]>();
+        rawData.list.forEach((item: any) => {
+          const date = new Date(item.dt * 1000).toISOString().split('T')[0];
+          const tempMin = item.main.temp_min;
+          const tempMax = item.main.temp_max;
+          const condition = item.weather[0]?.description;
+          const icon = item.weather[0]?.icon;
+
+          if (!dailyMap.has(date)) {
+            dailyMap.set(date, { date, min: tempMin, max: tempMax, condition, icon });
+          } else {
+            const day = dailyMap.get(date)!;
+            day.min = Math.min(day.min ?? tempMin, tempMin);
+            day.max = Math.max(day.max ?? tempMax, tempMax);
+          }
+        });
+
+        const dailyArray: ForecastResponse['daily'] = Array.from(dailyMap.values()).slice(0, 5);
+
+        const data: ForecastResponse = { daily: dailyArray };
+
         this.forecastCache.set(key, { timestamp: now, data });
+
         return data;
       }),
       catchError((error: HttpErrorResponse) => {
