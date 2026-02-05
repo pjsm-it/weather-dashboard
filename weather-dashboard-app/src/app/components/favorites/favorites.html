@@ -1,13 +1,17 @@
 <div class="favorites-component">
-  <h2>Favorites</h2>
+  <h2>Recent Cities</h2>
 
-  @if (favoriteCities.length === 0) {
-    <p class="empty">No favorite cities yet.</p>
+  @if (lastCities.length === 0) {
+    <p class="empty">No recent cities.</p>
   }
   @else {
     <ul>
-      @for (city of favoriteCities; track city) {
-        <li>{{ city }}</li>
+      @for (city of lastCities; track city.name) {
+        <li>
+          <button (click)="selectCity(city)">
+            {{ city.name }}{{ city.country ? ', ' + city.country : '' }}
+          </button>
+        </li>
       }
     </ul>
   }

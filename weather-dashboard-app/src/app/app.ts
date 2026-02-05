@@ -5,7 +5,6 @@ import { Forecast } from './components/forecast/forecast';
 import { Favorites } from './components/favorites/favorites';
 import { Footer } from './components/footer/footer';
 import { AiPrompt } from './components/ai-prompt/ai-prompt';
-import { single } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -26,15 +25,23 @@ export class App {
 
   protected readonly selectedCity = signal('Braga');
   protected readonly selectedCountry = signal<string | undefined>(undefined);
+  protected readonly selectedCityQuery = signal<CityQuery>({ name: 'Braga' });
 
   protected readonly unit = signal<'metric' | 'imperial'>('metric');
 
   protected onCitySelected(query: CityQuery) {
     this.selectedCity.set(query.name);
     this.selectedCountry.set(query.country);
+    this.selectedCityQuery.set(query);
   }
 
   protected toggleUnit() {
     this.unit.set(this.unit() === 'metric' ? 'imperial' : 'metric');
+  }
+
+  protected loadWeatherFromFavorites(query: CityQuery) {
+    this.selectedCity.set(query.name);
+    this.selectedCountry.set(query.country);
+    this.selectedCityQuery.set(query);
   }
 }

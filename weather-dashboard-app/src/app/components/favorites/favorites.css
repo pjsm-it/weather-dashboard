@@ -19,6 +19,18 @@
   border-bottom: none;
 }
 
+.favorites-component button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: #007bff;
+}
+
+.favorites-component button:hover {
+  text-decoration: underline;
+}
+
 .empty {
   font-style: italic;
   color: #777;

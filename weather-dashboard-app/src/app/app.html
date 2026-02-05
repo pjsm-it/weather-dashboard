@@ -22,6 +22,9 @@
 
 <app-ai-prompt></app-ai-prompt>
 
-<app-favorites></app-favorites>
+<app-favorites
+  [selectedCitySignal]="selectedCityQuery()"
+  [loadWeather]="loadWeatherFromFavorites.bind(this)">
+</app-favorites>
 
 <app-footer></app-footer>
