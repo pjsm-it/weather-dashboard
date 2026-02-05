@@ -31,6 +31,21 @@
   text-decoration: underline;
 }
 
+.clear-storage-btn {
+  display: block;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  background-color: #b0b0b0 !important; 
+  border: 1px solid #999 !important; 
+  border-radius: 4px !important;
+  cursor: pointer;
+  color: #000 !important; 
+}
+
+.clear-storage-btn:hover {
+  background-color: #999 !important; 
+}
+
 .empty {
   font-style: italic;
   color: #777;
