@@ -1,21 +1,19 @@
-<div class="ai-prompt-component" style="border: 1px solid #ccc; padding: 1rem; margin: 1rem 0;">
+<div class="ai-prompt-component">
   <h2>AI Weather Assistant</h2>
 
-  <p>
-    Prompt:
-  </p>
+  <p>Prompt:</p>
 
   <input
     type="text"
     placeholder="Ask something about today's weather..."
-    style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem;"
+    [(ngModel)]="prompt"
   />
 
-  <button style="padding: 0.5rem 1rem;">
-    Ask AI
-  </button>
+  <button (click)="sendPrompt()">Ask AI</button>
 
-  <p style="margin-top: 1rem;">
-    Response will appear here.
+  <p class="loading" *ngIf="loading()">Loading...</p>
+
+  <p class="response" *ngIf="aiResponse() && !loading()">
+    {{ aiResponse() }}
   </p>
 </div>

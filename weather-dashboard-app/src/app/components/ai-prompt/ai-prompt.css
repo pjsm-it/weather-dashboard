@@ -1,0 +1,27 @@
+.ai-prompt-component {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.ai-prompt-component input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  box-sizing: border-box;
+}
+
+.ai-prompt-component button {
+  padding: 0.5rem 1rem;
+}
+
+.ai-prompt-component .loading {
+  font-style: italic;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+.ai-prompt-component .response {
+  margin-top: 1rem;
+  white-space: pre-wrap;
+}
