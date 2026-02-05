@@ -6,14 +6,17 @@
   <input
     type="text"
     placeholder="Ask something about today's weather..."
-    [(ngModel)]="prompt"
+    [value]="prompt()"
+    (input)="prompt.set($event.target.value)"
   />
 
   <button (click)="sendPrompt()">Ask AI</button>
 
-  <p class="loading" *ngIf="loading()">Loading...</p>
+  @if (loading()) {
+    <p class="loading">Loading...</p>
+  }
 
-  <p class="response" *ngIf="aiResponse() && !loading()">
-    {{ aiResponse() }}
-  </p>
+  @if (aiResponse() && !loading()) {
+    <p class="response">{{ aiResponse() }}</p>
+  }
 </div>
