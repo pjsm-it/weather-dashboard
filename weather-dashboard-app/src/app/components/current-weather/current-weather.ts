@@ -11,9 +11,9 @@ import { WeatherService, CurrentWeatherResponse } from '../../services/weather';
 })
 export class CurrentWeather implements OnChanges {
 
-  @Input() city!: string;
+  @Input() city?: string;
   @Input() country?: string;
-  @Input() unit!: 'metric' | 'imperial';
+  @Input() unit?: 'metric' | 'imperial';
 
   protected temperature = signal<number | undefined>(undefined);
   protected condition = signal<string | undefined>(undefined);
@@ -30,7 +30,6 @@ export class CurrentWeather implements OnChanges {
     if (changes['city']) {
       this.fetchWeather();
     }
-
     if (changes['unit']) {
       this.applyUnitConversion();
     }

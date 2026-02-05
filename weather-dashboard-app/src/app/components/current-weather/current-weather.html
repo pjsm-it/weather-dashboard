@@ -1,7 +1,7 @@
 <div class="current-weather-component">
   <h2>Current Weather</h2>
 
-  <p>City: {{ city }}, {{ country }}</p>
+  <p>City: {{ city }}<span>{{ countrySignal() ? ', ' + countrySignal() : '' }}</span></p>
 
   @if (displayTemperature !== undefined) {
     <p>Temperature: {{ displayTemperature }} {{ unit === 'metric' ? 'ºC' : 'ºF' }}</p>

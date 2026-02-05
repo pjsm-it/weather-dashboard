@@ -40,8 +40,8 @@ export class WeatherService {
 
   constructor(private http: HttpClient) {}
 
-  getCurrentWeather(city: string, unit: 'metric' | 'imperial'): Observable<CurrentWeatherResponse> {
-    const key = `${city}-${unit}`;
+  getCurrentWeather(city: string, unit: 'metric' | 'imperial', country?: string): Observable<CurrentWeatherResponse> {
+    const key = `${city}-${country ?? ''}-${unit}`;
     const now = Date.now();
 
     const lastTime = this.lastRequest.get(key);
@@ -55,7 +55,8 @@ export class WeatherService {
       return of(cached.data);
     }
 
-    const url = `${this.apiUrl}?q=${encodeURIComponent(city)}&units=${unit}&appid=${environment.weatherApiKey}`;
+    const query = country ? `${city},${country}` : city;
+    const url = `${this.apiUrl}?q=${encodeURIComponent(query)}&units=${unit}&appid=${environment.weatherApiKey}`;
 
     return this.http.get<CurrentWeatherResponse>(url).pipe(
       tap(data => this.cache.set(key, { timestamp: now, data })),
@@ -118,14 +119,16 @@ export class WeatherService {
     );
   }
 
-  askAI(prompt: string): Observable<string> {
+  askAI(prompt: string): Observable<any> {
     const url = 'https://router.huggingface.co/v1/chat/completions';
 
     return this.http.post<any>(
       url,
       {
-        model: 'Qwen/Qwen3-Coder-Next:novita',
-        messages: [{ role: 'user', content: prompt }],
+        model: 'Qwen/Qwen2.5-7B-Instruct-Turbo',
+        messages: [
+          { role: 'user', content: prompt }
+        ],
         max_tokens: 100
       },
       {
@@ -134,17 +137,6 @@ export class WeatherService {
           'Content-Type': 'application/json'
         }
       }
-    ).pipe(
-      map(res => {
-        if (res?.choices?.[0]?.message?.content) {
-          return res.choices[0].message.content;
-        }
-        throw new Error('AI response missing content');
-      }),
-      catchError(err => {
-        console.error('Error calling Hugging Face AI', err);
-        return throwError(() => new Error('Unable to get AI response.'));
-      })
     );
   }
 }
