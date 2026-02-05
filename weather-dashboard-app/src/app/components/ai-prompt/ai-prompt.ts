@@ -28,26 +28,28 @@ export class AiPrompt {
   }
 
   protected sendPrompt() {
-    const question = this.prompt().trim();
-    if (!question) return;
+    const userInput = this.prompt().trim();
+    if (!userInput) return;
 
     const now = Date.now();
     if (now - this.lastRequest < this.throttleDuration) return;
     this.lastRequest = now;
 
-    if (this.cache.has(question)) {
-      this.aiResponse.set(this.cache.get(question)!);
+    if (this.cache.has(userInput)) {
+      this.aiResponse.set(this.cache.get(userInput)!);
       return;
     }
 
     this.loading.set(true);
     this.aiResponse.set('');
 
+    const question = `Answer concisely about the current weather in one or two sentences: ${userInput}`;
+
     this.weatherService.askAI(question).subscribe({
       next: (res: any) => {
         const answer = res[0]?.generated_text ?? 'No response';
         this.aiResponse.set(answer);
-        this.cache.set(question, answer);
+        this.cache.set(userInput, answer);
         this.loading.set(false);
       },
       error: (err) => {
