@@ -1,4 +1,4 @@
-import { Component, signal, effect, Input } from '@angular/core';
+import { Component, signal, effect } from '@angular/core';
 import { WeatherService } from '../../services/weather';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -47,7 +47,7 @@ export class AiPrompt {
 
     this.weatherService.askAI(question).subscribe({
       next: (res: any) => {
-        const answer = res[0]?.generated_text ?? 'No response';
+        const answer = res?.choices?.[0]?.message?.content ?? 'No response';
         this.aiResponse.set(answer);
         this.cache.set(userInput, answer);
         this.loading.set(false);
@@ -62,6 +62,7 @@ export class AiPrompt {
 
   protected handleKey(event: KeyboardEvent) {
     if (event.key === 'Enter') {
+      event.preventDefault();
       this.sendPrompt();
     }
   }

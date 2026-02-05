@@ -1,5 +1,5 @@
-import { Injectable, input } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -27,7 +27,6 @@ export interface ForecastResponse {
 })
 export class WeatherService {
   private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
-  private huggingFaceUrl = 'https://api-inference.huggingface.co/models/mosaicml/mpt-7b-instruct'; 
 
   private cache = new Map<string, { timestamp: number; data: CurrentWeatherResponse }>();
   private cacheDuration = 10 * 60 * 1000;
@@ -106,9 +105,7 @@ export class WeatherService {
         });
 
         const dailyArray: ForecastResponse['daily'] = Array.from(dailyMap.values()).slice(0, 5);
-
         const data: ForecastResponse = { daily: dailyArray };
-
         this.forecastCache.set(key, { timestamp: now, data });
 
         return data;
@@ -122,16 +119,23 @@ export class WeatherService {
   }
 
   askAI(prompt: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${environment.huggingFaceToken}`,
-      'Content-Type': 'application/json' 
-    });
+    const url = 'https://router.huggingface.co/v1/chat/completions';
 
-    const body = {
-      inputs: prompt,
-      parameters: { mac_new_tokens: 100}
-    };
-
-    return this.http.post(this.huggingFaceUrl, body, { headers });
+    return this.http.post<any>(
+      url,
+      {
+        model: 'Qwen/Qwen2.5-7B-Instruct-Turbo',
+        messages: [
+          { role: 'user', content: prompt }
+        ],
+        max_tokens: 100
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${environment.huggingFaceToken}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
   }
 }

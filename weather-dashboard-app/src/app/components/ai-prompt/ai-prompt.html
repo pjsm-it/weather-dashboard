@@ -1,13 +1,10 @@
 <div class="ai-prompt-component">
   <h2>AI Weather Assistant</h2>
 
-  <p>Prompt:</p>
-
   <input
     type="text"
     placeholder="Ask something about today's weather..."
-    [value]="prompt()"
-    (input)="prompt.set($event.target.value)"
+    [(ngModel)]="prompt"
     (keydown)="handleKey($event)"
   />
 
@@ -17,7 +14,9 @@
     <p class="loading">Loading...</p>
   }
 
-  @if (aiResponse() && !loading()) {
-    <p class="response">{{ aiResponse() }}</p>
+  @if (aiResponse()) {
+    <div class="response">
+      {{ aiResponse() }}
+    </div>
   }
 </div>
