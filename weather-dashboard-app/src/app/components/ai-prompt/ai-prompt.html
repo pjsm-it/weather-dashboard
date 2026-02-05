@@ -8,6 +8,7 @@
     placeholder="Ask something about today's weather..."
     [value]="prompt()"
     (input)="prompt.set($event.target.value)"
+    (keydown)="handleKey($event)"
   />
 
   <button (click)="sendPrompt()">Ask AI</button>

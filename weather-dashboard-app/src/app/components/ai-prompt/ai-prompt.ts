@@ -57,4 +57,10 @@ export class AiPrompt {
       }
     });
   }
+
+  protected handleKey(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.sendPrompt();
+    }
+  }
 }
