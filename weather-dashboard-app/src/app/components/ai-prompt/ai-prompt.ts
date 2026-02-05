@@ -3,6 +3,12 @@ import { WeatherService } from '../../services/weather';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+/**
+ * AiPrompt component allows the user to send a natural language query
+ * about the current weather to an AI service and displays a concise response.
+ *
+ * Includes caching and throttling to minimize repeated API calls.
+ */
 @Component({
   selector: 'app-ai-prompt',
   standalone: true,
@@ -11,15 +17,26 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./ai-prompt.css'],
 })
 export class AiPrompt {
+  /** Current text input from the user */
   protected prompt = signal('');
+
+  /** Current AI response to the user's prompt */
   protected aiResponse = signal('');
+
+  /** Loading state while waiting for AI response */
   protected loading = signal(false);
 
+  /** Cache to store previous prompt responses */
   private cache = new Map<string, string>();
+
+  /** Timestamp of last API request for throttling */
   private lastRequest = 0;
+
+  /** Minimum delay between requests in milliseconds */
   private throttleDuration = 2000;
 
   constructor(private weatherService: WeatherService) {
+    // Clear AI response if the input prompt is empty
     effect(() => {
       if (!this.prompt()) {
         this.aiResponse.set('');
@@ -27,6 +44,10 @@ export class AiPrompt {
     });
   }
 
+  /**
+   * Sends the current prompt to the AI service if valid,
+   * using cached responses if available and respecting throttling.
+   */
   protected sendPrompt() {
     const userInput = this.prompt().trim();
     if (!userInput) return;
@@ -59,6 +80,10 @@ export class AiPrompt {
     });
   }
 
+  /**
+   * Handles keyboard input, sending prompt on Enter key.
+   * @param event KeyboardEvent triggered by user input
+   */
   protected handleKey(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       event.preventDefault();
