@@ -46,10 +46,9 @@ export class AiPrompt {
     const question = `Answer concisely about the current weather in one or two sentences: ${userInput}`;
 
     this.weatherService.askAI(question).subscribe({
-      next: (res: any) => {
-        const answer = res?.choices?.[0]?.message?.content ?? 'No response';
-        this.aiResponse.set(answer);
-        this.cache.set(userInput, answer);
+      next: (res: string) => {
+        this.aiResponse.set(res);
+        this.cache.set(userInput, res);
         this.loading.set(false);
       },
       error: (err) => {

@@ -5,8 +5,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export interface CurrentWeatherResponse {
-  name: string; 
-  sys: { country: string }; 
+  name: string;
+  sys: { country: string };
   main: { temp: number; humidity: number };
   wind: { speed: number };
   weather: { description: string }[];
@@ -23,7 +23,7 @@ export interface ForecastResponse {
 }
 
 @Injectable({
-  providedIn: 'root', 
+  providedIn: 'root',
 })
 export class WeatherService {
   private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
@@ -118,16 +118,14 @@ export class WeatherService {
     );
   }
 
-  askAI(prompt: string): Observable<any> {
+  askAI(prompt: string): Observable<string> {
     const url = 'https://router.huggingface.co/v1/chat/completions';
 
     return this.http.post<any>(
       url,
       {
-        model: 'Qwen/Qwen2.5-7B-Instruct-Turbo',
-        messages: [
-          { role: 'user', content: prompt }
-        ],
+        model: 'Qwen/Qwen3-Coder-Next:novita',
+        messages: [{ role: 'user', content: prompt }],
         max_tokens: 100
       },
       {
@@ -136,6 +134,17 @@ export class WeatherService {
           'Content-Type': 'application/json'
         }
       }
+    ).pipe(
+      map(res => {
+        if (res?.choices?.[0]?.message?.content) {
+          return res.choices[0].message.content;
+        }
+        throw new Error('AI response missing content');
+      }),
+      catchError(err => {
+        console.error('Error calling Hugging Face AI', err);
+        return throwError(() => new Error('Unable to get AI response.'));
+      })
     );
   }
 }
