@@ -1,3 +1,9 @@
+h1 {
+  color: #1976d2;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
 .unit-toggle {
   margin: 1rem 0;
 }

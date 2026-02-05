@@ -1,20 +1,40 @@
 .search-component {
-  border: 1px solid #ccc;
-  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1.2rem;
   margin: 1rem 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.search-component h2 {
+  color: #1976d2;
+  margin-bottom: 0.8rem;
 }
 
 .search-component input {
   width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
+  padding: 0.6rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
 .search-component button {
-  padding: 0.5rem 1rem;
+  width: 100%;
+  padding: 0.6rem;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-component button:hover {
+  background-color: #1565c0;
 }
 
 .error {
-    color: red;
-    margin-top: 0.5rem;
+  color: red;
+  margin-top: 0.5rem;
 }
