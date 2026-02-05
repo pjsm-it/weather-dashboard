@@ -18,14 +18,15 @@ export class Forecast {
   protected forecastDays = signal<ForecastResponse['daily']>([]);
   protected loading = signal(false);
 
-  constructor(private weatherService: WeatherService) {}
-
-  ngOnInit() {
+  constructor(private weatherService: WeatherService) {
     effect(() => {
       const city = this.citySignal();
       const country = this.countrySignal();
       const unit = this.unitSignal();
-      if (city) this.fetchForecast(city, country, unit);
+
+      if (!city) return;
+
+      this.fetchForecast(city, country, unit);
     });
   }
 
