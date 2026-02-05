@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable, input } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -27,6 +27,8 @@ export interface ForecastResponse {
 })
 export class WeatherService {
   private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
+  private huggingFaceUrl = 'https://api-inference.huggingface.co/models/mosaicml/mpt-7b-instruct'; 
+
   private cache = new Map<string, { timestamp: number; data: CurrentWeatherResponse }>();
   private cacheDuration = 10 * 60 * 1000;
   private lastRequest = new Map<string, number>();
@@ -117,5 +119,19 @@ export class WeatherService {
         return throwError(() => new Error('Network error'));
       })
     );
+  }
+
+  askAI(prompt: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${environment.huggingFaceToken}`,
+      'Content-Type': 'application/json' 
+    });
+
+    const body = {
+      inputs: prompt,
+      parameters: { mac_new_tokens: 100}
+    };
+
+    return this.http.post(this.huggingFaceUrl, body, { headers });
   }
 }
